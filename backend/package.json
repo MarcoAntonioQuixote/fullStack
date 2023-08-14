@@ -4,6 +4,7 @@
   "description": "first full stack quick app",
   "main": "server.js",
   "scripts": {
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server"
   },
