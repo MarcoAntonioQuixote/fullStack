@@ -1,12 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
+const dotenv = require('dotenv');
+dotenv.config();
 const port = 8000;
 const app = express();
 
-const sequelize = new Sequelize('dbtestname','postgres','postgres', {
-    host: 'localhost',
-    dialect: 'postgres',
+let db = process.env.db;
+let user = process.env.dbUser;
+let pw = process.env.dbPassword;
+let host = process.env.dbHost;
+
+const sequelize = new Sequelize(db,user,pw, {
+    host: host,
+    dialect: 'postgres', 
+    dialectOptions: {
+        ssl: true
+    },
     logging: false
 })
 
@@ -50,19 +60,19 @@ const makeAnimal = async () => {
     let first = {
         species: 'Tiger',
         name: 'Kitty',
-        picture: 'Some URL',
+        picture: "https://media.istockphoto.com/id/490989354/es/foto/ojos-de-gato.jpg?s=612x612&w=0&k=20&c=xf0Kk44o0IMCZH8lC0JXZGNtxApfoUzPfJf3bcMJ8yo=",
         pID: 1
     }
     let second = {
         species: 'Bear',
         name: 'Barry',
-        picture: 'Unique URL',
+        picture: "https://media.gettyimages.com/id/926738156/es/foto/brown-bear-retrato.jpg?s=612x612&w=0&k=20&c=Yr9bXXKNopGQYke6Ke5qLRZ7W1QCpa_FnPJmla6-G_c=",
         pID: 2
     }
     let third = {
         species: 'Lion',
         name: 'King',
-        picture: 'Disney IP',
+        picture: "https://media.gettyimages.com/id/1333977253/es/foto/le%C3%B3n-macho-descansando-sobre-una-roca.jpg?s=612x612&w=0&k=20&c=EVpkx2lvCJsJP66nNjDrm66JMuBWfNgf88XEOyPBKgg=",
         pID: 1
     }
 
@@ -86,7 +96,7 @@ const getUser = async (id) => {
     return user;
 }
 
-// sequelize.sync({alter: true});
+sequelize.sync({force: true});
 
 // makePlayer();
 
